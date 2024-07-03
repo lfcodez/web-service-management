@@ -28,10 +28,18 @@
             </v-row>
         </v-col>
     </v-container>
+    <v-snackbar v-model="snackbar">
+        Server Error
+        <template v-slot:actions>
+            <v-btn color="pink" variant="text" @click="snackbar = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 </template>
 
 <script>
-import {get} from '@/axios'
+import { get } from '@/axios'
 
 export default {
     name: 'Mainpage',
@@ -39,26 +47,49 @@ export default {
     data() {
         return {
             services: [],
+            snackbar: false,
         }
     },
     methods: {
         async stop(id) {
-            await get("/stop?id=" + id)
+            try {
+                await get("/stop?id=" + id)
+            }
+            catch (e) {
+                this.snackbar = true;
+            }
             this.getServices();
         },
         async restart(id) {
-            await get("/restart?id=" + id)
+            try {
+                await get("/restart?id=" + id)
+            }
+            catch (e) {
+                this.snackbar = true;
+            }
             this.getServices();
+
         },
         async start(id) {
-            await get("/start?id=" + id)
+            try {
+                await get("/start?id=" + id)
+            }
+            catch (e) {
+                this.snackbar = true;
+            }
+
             this.getServices();
         },
         async getServices() {
-            this.services = await get('/services')
+            try {
+                this.services = await get('/services')
+            }
+            catch (e) {
+                this.snackbar = true;
+            }
         }
     },
-    mounted(){
+    mounted() {
         this.getServices();
     }
 }

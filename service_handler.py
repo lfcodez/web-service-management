@@ -1,6 +1,6 @@
 import json
 # import threading
-# import os
+import os
 from subprocess import Popen
 import time
 
@@ -27,8 +27,8 @@ class ServiceHandler():
         service = self.get_service(id)
         if service:
             service["status"] = "running"
-            print(service["commands"])
-            process = Popen(service["commands"])
+            print(service["start_command"])
+            process = Popen(service["start_command"])
             self.process_list.append(
                 {"id": id, "process": process})
             return True
@@ -44,6 +44,8 @@ class ServiceHandler():
                 process.kill()
                 self.remove_process(id)
                 print(self.process_list)
+            if service.get("stop_command"):
+                os.system(" ".join(service.get("stop_command")))
             return True
         return False
 
@@ -72,7 +74,7 @@ class ServiceHandler():
 #         self.service = service
 
 #     def run(self):
-#         for command in self.service.commands:
+#         for command in self.service.start_command:
 #             os.system(command)
 
 #     def kill(self):

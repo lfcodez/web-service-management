@@ -1,10 +1,12 @@
 {
     "0": {
-        "name": "Test Service 0",
-        "commands": ["notepad.exe"]
+        "name": "Service Name",
+        "start_command": [""],
+        "stop_command": null
     },
     "1": {
-        "name": "Test Service 1",
-        "commands": ["notepad.exe"]
+        "name": "Service Name",
+        "start_command": [""],
+        "stop_command": null
     }
 }
